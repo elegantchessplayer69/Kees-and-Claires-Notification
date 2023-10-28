@@ -1,0 +1,26 @@
+import requests
+from bs4 import BeautifulSoup
+import time
+
+# URL of the website
+url = 'https://spearheadhuts.org/booknow#!/Huts/date_from:01/26/2024/guests:6/type:member'
+
+# Headers to mimic a browser request
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+}
+
+# Function to check for availability
+def check_availability():
+    page = requests.get(url, headers=headers)
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Check if the desired date is available
+    if 'No Availability' not in soup.get_text():
+        print("There is availability for the specified date!")
+        # Add your notification code here
+
+# Run the check every 60 seconds
+while True:
+    check_availability()
+    time.sleep(60)
